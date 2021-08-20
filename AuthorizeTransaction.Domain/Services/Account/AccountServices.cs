@@ -1,6 +1,9 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using AuthorizeTransaction.Domain.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AuthorizeTransaction.Domain.Services.Account
 {
@@ -14,26 +17,20 @@ namespace AuthorizeTransaction.Domain.Services.Account
         }
 
         public async Task<Entities.Account> AccountCreationAsync(Entities.Account account)
-        {
-            var accountRepo = _accountRepository.GetAllAsync();
+        {          
+            var accountRepo = await _accountRepository.GetAllAsync();
 
-            IEnumerable<Entities.Account> accountrepo = await _accountRepository.GetAllAsync();
-
-            Entities.Account accountStored = accountrepo.ToList().FirstOrDefault();
+            var accountStored = accountRepo.ToList().FirstOrDefault();
 
             if (accountStored != null)
             {
                 if (account.ActiveCard == true && accountStored.ActiveCard == true)
-                {
-                    accountStored.Violations.Add(new Violations { Violation = "account-already-initialized" });
-                    await _accountRepository.UpdateAsync(accountStored);
-                }
+                    accountStored.Violations.Add("account-already-initialized");                   
 
-                if(account.AvailableLimit == accountStored.AvailableLimit && account.ActiveCard == accountStored.ActiveCard)
-                {
-                    accountStored.Violations.Add(new Violations { Violation = "doubled-transaction" });
-                    _accountRepository.UpdateAsync(accountStored);  
-                }
+                if (account.AvailableLimit == accountStored.AvailableLimit && account.ActiveCard == accountStored.ActiveCard)
+                    accountStored.Violations.Add("doubled-transaction");
+
+                await _accountRepository.UpdateAsync(accountStored);
 
                 return accountStored;
             }
@@ -42,10 +39,17 @@ namespace AuthorizeTransaction.Domain.Services.Account
                 account.ActiveCard = account.ActiveCard;
                 account.AvailableLimit = account.AvailableLimit;
                 await _accountRepository.AddAsync(account);
+
                 return account;
             }
+        }
 
+        public async Task<Entities.Account> GetAccountAsync()
+        {
+            IEnumerable<Entities.Account> accountRepo = await _accountRepository.GetAllAsync();
+            Entities.Account accountStored = accountRepo.ToList().FirstOrDefault();
 
+            return accountStored;
         }
     }
 }

@@ -21,7 +21,9 @@ namespace AuthorizeTransaction.ConsoleApp.DependencyInjection
             .AddTransient<IAccountServices, AccountServices>()
 
             //Repositories
-            .AddTransient<IRecordRepository, RecordRepository>()            
+            .AddTransient<IRecordRepository, RecordRepository>()
+            .AddTransient<IAccountRepository, AccountRepository>()
+            .AddTransient<ITransactionRepository, TransactionRepository>()
             .AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
 
             //Context

@@ -5,6 +5,7 @@ namespace AuthorizeTransaction.Infrastructure.Context
 {
     public class AuthorizeTransactionContext : DbContext  
     {
+      
         public AuthorizeTransactionContext(DbContextOptions<AuthorizeTransactionContext> options)
           : base(options)
         {

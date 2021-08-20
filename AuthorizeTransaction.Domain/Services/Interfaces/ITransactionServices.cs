@@ -1,9 +1,10 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
+using System.Threading.Tasks;
 
 namespace AuthorizeTransaction.Domain.Services.Interfaces
 {
     public interface ITransactionServices
     {
-        Record? TransactionAuthorization(Record? item);
+        Task<Record> TransactionAuthorizationAsync(Record? item);
     }
 }

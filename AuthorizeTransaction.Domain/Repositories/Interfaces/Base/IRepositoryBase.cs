@@ -12,6 +12,9 @@ namespace AuthorizeTransaction.Domain.Repositories.Interfaces.Base
         Task<TEntity> UpdateAsync(TEntity obj);
 
         Task RemoveAsync(int id);
-      
+
+        Task<TEntity> GetByIdAsync(int id);
+
+
     }
 }

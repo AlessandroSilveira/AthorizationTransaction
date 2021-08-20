@@ -21,6 +21,10 @@ namespace AuthorizeTransaction.ConsoleApp
             ConfigureServices(serviceCollection);
 
             var serviceProvider = serviceCollection.BuildServiceProvider();
+            var context = serviceProvider.GetRequiredService<AuthorizeTransactionContext>();
+
+            context.Database.EnsureDeleted();
+
             serviceProvider.GetService<AuthorizeTransactionService>().StartReadInputTransactions().Wait();
         }
 
@@ -29,16 +33,9 @@ namespace AuthorizeTransaction.ConsoleApp
             var configuration = GetConfiguration();
             serviceCollection
             .AddSingleton(typeof(IConfiguration), configuration)
-            .AddDbContext<AuthorizeTransactionContext>(opt => opt.UseInMemoryDatabase("AuthorizeTransactions"))           
-            .AddAuthorizeTransactionsConfigurations()
-          
+            .AddDbContext<AuthorizeTransactionContext>(opt => opt.UseInMemoryDatabase("AuthorizeTransactions"))         
+            .AddAuthorizeTransactionsConfigurations()          
             .AddSingleton<AuthorizeTransactionService>();
-
-           // var optionsBuilder = new DbContextOptionsBuilder<AuthorizeTransactionContext>();
-           // optionsBuilder.UseInMemoryDatabase("AuthorizeTransactions");
-
-           //var  _context = new AuthorizeTransactionContext(optionsBuilder.Options);
-           // //_context.Database.EnsureDeleted();
         }
         private static IConfiguration GetConfiguration()
         {

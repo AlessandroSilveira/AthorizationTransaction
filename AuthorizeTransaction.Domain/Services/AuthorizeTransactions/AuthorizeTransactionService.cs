@@ -1,6 +1,11 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
+using AuthorizeTransaction.Domain.Ouputs;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 {
@@ -32,7 +37,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 
         private void ReadInput()
         {
-            
+
             Console.WriteLine("Please inseert Cat operations: ");
             do
             {
@@ -49,24 +54,33 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
         {
             var records = await _recordServices.GetAll();
 
-
             Console.WriteLine("Authorize < operations");
+
             foreach (var item in records)
             {
-                if  ( item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
-                   _transactionServices.TransactionAuthorization(item);
+                if (item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
+                {
+                    await _transactionServices.TransactionAuthorizationAsync(item);
+
+                    var outputTransaction = new TransactionOutput { Transaction = item.Transaction };
+                    using Stream stdout = Console.OpenStandardOutput();
+                    var output = JsonConvert.SerializeObject(outputTransaction);
+                    stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
+
+                }   
                 else
-                   _accountServices.AccountCreationAsync(item.Account);
+                {
+                    await _accountServices.AccountCreationAsync(item.Account);
 
-                ////item.Account = Account;
-                //_recordServices.Update(item);
+                    var outputAccount = new AccountOutput { Account = item.Account };
+                    using Stream stdout = Console.OpenStandardOutput();
+                    var output = JsonConvert.SerializeObject(outputAccount);
+                    stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
+                }
             }
-
-            Console.WriteLine();
-            Console.WriteLine(JsonConvert.SerializeObject(records, Formatting.Indented));
-
-
         }
-
     }
 }
+
+
+

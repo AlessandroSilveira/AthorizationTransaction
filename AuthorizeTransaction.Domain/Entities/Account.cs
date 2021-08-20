@@ -7,10 +7,11 @@ namespace AuthorizeTransaction.Domain.Entities
     {
         public Account()
         {
-            this.Violations = new List<Violations>();   
+            this.Violations = new List<string>();
         }
         public bool ActiveCard { get; set; }
         public int AvailableLimit { get; set; }        
-        public List<Violations> Violations { get; set; }
+        [NotMapped]
+        public List<string> Violations { get; set; }
     }
 }

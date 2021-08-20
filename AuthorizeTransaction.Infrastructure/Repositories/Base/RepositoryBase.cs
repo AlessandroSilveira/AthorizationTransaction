@@ -1,6 +1,9 @@
 ﻿using AuthorizeTransaction.Domain.Repositories.Interfaces.Base;
 using AuthorizeTransaction.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AuthorizeTransaction.Infrastructure.Repositories.Base
 {
@@ -32,6 +35,11 @@ namespace AuthorizeTransaction.Infrastructure.Repositories.Base
             return await _context.Set<TEntity>().ToListAsync();
         }
 
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            return await _context.Set<TEntity>().FindAsync(id);
+        }
+
         public async Task<TEntity> UpdateAsync(TEntity obj)
         {
 
@@ -41,7 +49,7 @@ namespace AuthorizeTransaction.Infrastructure.Repositories.Base
             return obj;
         }
 
-        public async Task RemoveAsync(Guid id)
+        public async Task RemoveAsync(int id)
         {
             var entity = await _context.Set<TEntity>().FindAsync(id);
             _context.Set<TEntity>().Remove(entity);
