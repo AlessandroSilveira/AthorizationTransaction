@@ -1,0 +1,13 @@
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.csproj.AssemblyReference.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.AssemblyInfoInputs.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.AssemblyInfo.cs
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.ImplicitNamespaceImports.cs
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.csproj.CoreCompileInputs.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\bin\Debug\net6.0\AuthorizeTransaction.Domain.deps.json
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\bin\Debug\net6.0\AuthorizeTransaction.Domain.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\bin\Debug\net6.0\ref\AuthorizeTransaction.Domain.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\bin\Debug\net6.0\AuthorizeTransaction.Domain.pdb
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\ref\AuthorizeTransaction.Domain.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Domain\obj\Debug\net6.0\AuthorizeTransaction.Domain.pdb

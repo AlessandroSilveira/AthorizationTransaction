@@ -1,0 +1,16 @@
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.AssemblyInfo.cs
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.ImplicitNamespaceImports.cs
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\AuthorizeTransaction.Infrastructure.deps.json
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\AuthorizeTransaction.Infrastructure.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\ref\AuthorizeTransaction.Infrastructure.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\AuthorizeTransaction.Infrastructure.pdb
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\AuthorizeTransaction.Domain.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\bin\Debug\net6.0\AuthorizeTransaction.Domain.pdb
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\ref\AuthorizeTransaction.Infrastructure.dll
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.pdb
+C:\Users\alesi\source\repos\AuthorizeTransaction\AuthorizeTransaction.Infrastructure\obj\Debug\net6.0\AuthorizeTransaction.Infrastructure.csproj.CopyComplete

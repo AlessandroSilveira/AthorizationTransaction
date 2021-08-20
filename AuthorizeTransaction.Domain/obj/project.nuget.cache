@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZTwWvqd1JAiCFCehHG20aOngjBUQSZkubXfVvMjyv9iXS3Ohb/UWbA6VdaRD7jbsr0JaK1kT8grtmINC/BWlPA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\alesi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
