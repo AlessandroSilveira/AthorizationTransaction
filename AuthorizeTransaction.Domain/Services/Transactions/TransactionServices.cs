@@ -22,21 +22,21 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             if (record.Account != null)
                 if (!record.Account.ActiveCard)
                 {                   
-                    record.Account.Violations.Add("card-not-active");
+                    record.Account.Violations.Add(new Violations { Violation = "card-not-active" });
                     return record;
                 }
 
             if (HighFrequency(record))
             {
                 
-                record.Transaction.Violations.Add("high-frequency-small-interval");
+                record.Transaction.Violations.Add(new Violations { Violation = "high-frequency-small-interval" });
                 return record;
             }
 
             if (DoubledTransaction(record))
             {
                 
-                record.Transaction.Violations.Add("doubled-transaction");
+                record.Transaction.Violations.Add(new Violations { Violation = "doubled-transaction" });
                 return record;
             }
 
@@ -55,7 +55,7 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)                        
-                        record.Transaction.Violations.Add("insufficient-limit");
+                        record.Transaction.Violations.Add(new Violations { Violation = "insufficient-limit" });
                     else
                     {
                         account.AvailableLimit -= record.Transaction.Amount;

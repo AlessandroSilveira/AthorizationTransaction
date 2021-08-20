@@ -58,10 +58,12 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                 else
                    _accountServices.AccountCreationAsync(item.Account);
 
-                //item.Account = Account;
-                _recordServices.Update(item);
+                ////item.Account = Account;
+                //_recordServices.Update(item);
             }
-            Console.WriteLine(JsonConvert.SerializeObject(records));
+
+            Console.WriteLine();
+            Console.WriteLine(JsonConvert.SerializeObject(records, Formatting.Indented));
 
 
         }
