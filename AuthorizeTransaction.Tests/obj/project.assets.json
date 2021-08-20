@@ -2750,7 +2750,7 @@
       ]
     },
     "System.Reflection.Metadata/1.6.0": {
-      "sha512": "I4aWCii7N1bmn43vviRfJQYW6UAco1G/CcjJouvgGdb/sr2BRTSnddhaPMg2oxu9VHFn8T1z3dTLq0pna8zmtA==",
+      "sha512": "COC1aiAJjCoA5GBF+QKL2uLqEBew4JsCkQmoHKbN3TlOZKa2fKLz5CpiRQKDz0RsAOEGsVKqOD5bomsXq/4STQ==",
       "type": "package",
       "path": "system.reflection.metadata/1.6.0",
       "files": [
@@ -3821,23 +3821,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\alesi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
       "projectName": "AuthorizeTransaction.Tests",
-      "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
-      "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\obj\\",
+      "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "packagesPath": "C:\\Users\\alesi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alessandro.silveira\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alesi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3897,7 +3893,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.7.21379.14\\RuntimeIdentifierGraph.json"
       }
     }
   }

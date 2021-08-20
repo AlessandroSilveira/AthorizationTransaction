@@ -20,28 +20,40 @@ namespace AuthorizeTransaction.Domain.Services.Account
         {          
             var accountRepo = await _accountRepository.GetAllAsync();
 
-            var accountStored = accountRepo.ToList().FirstOrDefault();
-
-            if (accountStored != null)
+            var accountStored = accountRepo.ToList();
+            if (accountStored.Count() > 1)
             {
-                if (account.ActiveCard == true && accountStored.ActiveCard == true)
-                    accountStored.Violations.Add("account-already-initialized");                   
+                if (accountStored != null)
+                {
+                    if (accountStored.Where(a => a.ActiveCard == true).Count() > 1)
+                        account.Violations.Add("account-already-initialized");
+                    foreach (var item in accountStored)
+                    {
+                        if (accountStored.Any(a => a.ActiveCard == item.ActiveCard && a.AvailableLimit == item.AvailableLimit))
+                        {
+                            if(!account.Violations.Contains("doubled-transaction"))
+                                account.Violations.Add("doubled-transaction");
+                        }
+                    }
 
-                if (account.AvailableLimit == accountStored.AvailableLimit && account.ActiveCard == accountStored.ActiveCard)
-                    accountStored.Violations.Add("doubled-transaction");
+                    await _accountRepository.UpdateAsync(account);
 
-                await _accountRepository.UpdateAsync(accountStored);
+                    return account;
+                }
+                else
+                {
+                    account.ActiveCard = account.ActiveCard;
+                    account.AvailableLimit = account.AvailableLimit;
+                    await _accountRepository.AddAsync(account);
 
-                return accountStored;
+                    return account;
+                }
+                
+
+               
             }
-            else
-            {
-                account.ActiveCard = account.ActiveCard;
-                account.AvailableLimit = account.AvailableLimit;
-                await _accountRepository.AddAsync(account);
+            return account;
 
-                return account;
-            }
         }
 
         public async Task<Entities.Account> GetAccountAsync()

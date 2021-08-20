@@ -23,23 +23,28 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
         public async Task<Record> TransactionAuthorizationAsync(Record record)
         {
-            
+
             var transactionStored = await _transactionRepository.GetByIdAsync(record.Transaction.Id);
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
 
-            if (account != null)
-                if (!account.ActiveCard)
-                {  
-                    account.Violations.Add("card-not-active");
-                    await _accountRepository.UpdateAsync(account);
 
-                    record.Account = account;
-                    return record;
-                }
+            if (account == null)
+            {
+                record.Transaction.Violations.Add("card-not-active");
+                await _transactionRepository.UpdateAsync(record.Transaction);
+                return record;
+            }
 
-            if (HighFrequency(record))               
-                record.Transaction.Violations.Add("high-frequency-small-interval");               
+            if (!account.ActiveCard)
+            {
+                record.Transaction.Violations.Add("card-not-active");
+                await _transactionRepository.UpdateAsync(record.Transaction);
+                return record;
+            }
+
+            if (HighFrequency(record))
+                record.Transaction.Violations.Add("high-frequency-small-interval");
 
             if (DoubledTransaction(record))
                 record.Transaction.Violations.Add("doubled-transaction");
@@ -63,12 +68,15 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)
-                        account.Violations.Add("insufficient-limit");
+                    {
+                        record.Transaction.Violations.Add("insufficient-limit");
+                        await _transactionRepository.UpdateAsync(record.Transaction);
+                    }
                     else
                     {
                         account.AvailableLimit -= record.Transaction.Amount;
                         record.Account = account;
-                        await _recordRepository.UpdateAsync(record);
+                        await _accountRepository.UpdateAsync(record.Account);
                     }
             }
             catch (Exception ex)
