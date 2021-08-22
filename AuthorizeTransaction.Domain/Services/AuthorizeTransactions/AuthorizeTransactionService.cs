@@ -3,6 +3,7 @@ using AuthorizeTransaction.Domain.Ouputs;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,11 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 
         public async Task StartReadInputTransactions()
         {
+            var records = new List<Record>();      
             try
             {
-                ReadInput();
-                AuthorizeOperationsAsync();
+                ReadInput(records);
+                AuthorizeOperationsAsync(records);
             }
             catch (Exception ex)
             {
@@ -35,10 +37,10 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
             }
         }
 
-        private void ReadInput()
+        public  void ReadInput(List<Record?> records)
         {
 
-            Console.WriteLine("Please inseert Cat operations: ");
+            Console.WriteLine("Please insert Cat operations: ");
             do
             {
                 string line = Console.ReadLine();
@@ -46,13 +48,18 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                 if (string.IsNullOrEmpty(line))
                     break;
 
-                _recordServices.AddAsync(JsonConvert.DeserializeObject<Record>(line));
+                //_recordServices.AddAsync(JsonConvert.DeserializeObject<Record>(line));
+                var record = JsonConvert.DeserializeObject<Record>(line);
+                
+                
+                records.Add(record);
             } while (true);
         }
 
-        private async Task AuthorizeOperationsAsync()
+        public async Task AuthorizeOperationsAsync(List<Record> records)
         {
-            var records = await _recordServices.GetAll();
+
+            //var records = await _recordServices.GetAll();
 
             Console.WriteLine("Authorize < operations");
 
@@ -60,24 +67,32 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
             {
                 if (item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
                 {
-                    await _transactionServices.TransactionAuthorizationAsync(item);
+                    var response = await _transactionServices.TransactionAuthorizationAsync(item, records);
 
-                    var outputTransaction = new TransactionOutput { Transaction = item.Transaction };
-                    using Stream stdout = Console.OpenStandardOutput();
-                    var output = JsonConvert.SerializeObject(outputTransaction);
-                    stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
 
-                }   
+                    var outputAccount = new AccountOutput { Account = response };
+
+                    var output = JsonConvert.SerializeObject(outputAccount);
+                    PrintOutput(output);
+
+                }
                 else
                 {
-                    await _accountServices.AccountCreationAsync(item.Account);
+                   var response =  await _accountServices.AccountCreationAsync(item.Account);
 
-                    var outputAccount = new AccountOutput { Account = item.Account };
-                    using Stream stdout = Console.OpenStandardOutput();
+                    var outputAccount = new AccountOutput { Account = response };
                     var output = JsonConvert.SerializeObject(outputAccount);
-                    stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
+
+                   PrintOutput(output);
                 }
             }
+        }
+
+        private static void PrintOutput(string output)
+        {
+            Stream stdout = Console.OpenStandardOutput();
+            stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
+            stdout.Write(Encoding.UTF8.GetBytes("\n"));           
         }
     }
 }

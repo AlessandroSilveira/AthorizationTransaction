@@ -2,6 +2,7 @@
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +14,6 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountRepository _accountRepository;
 
-
         public TransactionServices(IRecordRepository recordRepository, ITransactionRepository transactionRepository, IAccountRepository accountRepository)
         {
             _recordRepository = recordRepository;
@@ -21,62 +21,64 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             _accountRepository = accountRepository;
         }
 
-        public async Task<Record> TransactionAuthorizationAsync(Record record)
-        {
+        public async Task<Entities.Account> TransactionAuthorizationAsync(Record record, List<Record> records)
+        {   
 
-            var transactionStored = await _transactionRepository.GetByIdAsync(record.Transaction.Id);
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
 
 
             if (account == null)
             {
-                record.Transaction.Violations.Add("card-not-active");
-                await _transactionRepository.UpdateAsync(record.Transaction);
-                return record;
+                return new Entities.Account
+                {
+                    Violations = new List<string> { "account-not-initialized" }
+                };            
             }
 
-            if (!account.ActiveCard)
+            if (account != null && !account.ActiveCard)
             {
-                record.Transaction.Violations.Add("card-not-active");
-                await _transactionRepository.UpdateAsync(record.Transaction);
-                return record;
+                if(!account.Violations.Contains("card-not-active"))
+                    account.Violations.Add("card-not-active");
+
+                await _accountRepository.UpdateAsync(account);
+                return account;
             }
 
-            if (HighFrequency(record))
-                record.Transaction.Violations.Add("high-frequency-small-interval");
+            if (await HighFrequencyAsync(record, records))
+                account.Violations.Add("high-frequency-small-interval");
 
-            if (DoubledTransaction(record))
-                record.Transaction.Violations.Add("doubled-transaction");
+            if (await DoubledTransactionAsync(record, records))
+                account.Violations.Add("doubled-transaction");
 
-            await VeryifyAvaliableLimitAsync(record);
+            await VeryifyAvaliableLimitAsync(record, account);
 
-            await _transactionRepository.UpdateAsync(transactionStored);
-
-            return record;
+            return account;
         }
 
 
-
-        private async Task VeryifyAvaliableLimitAsync(Record record)
+        private async Task VeryifyAvaliableLimitAsync(Record record, Entities.Account? account)
         {
             try
             {
                 var records = await _recordRepository.GetAllAsync();
                 var RecordsList = records.ToList();
-                var account = RecordsList.FirstOrDefault()?.Account;
+               
 
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)
                     {
-                        record.Transaction.Violations.Add("insufficient-limit");
-                        await _transactionRepository.UpdateAsync(record.Transaction);
+                        account.Violations.Add("insufficient-limit");
+                        await _accountRepository.UpdateAsync(account);
                     }
                     else
                     {
+                        if (account.Violations.Contains("insufficient-limit"))
+                            account.Violations.Remove("insufficient-limit");
+
                         account.AvailableLimit -= record.Transaction.Amount;
-                        record.Account = account;
-                        await _accountRepository.UpdateAsync(record.Account);
+                        
+                        await _accountRepository.UpdateAsync(account);
                     }
             }
             catch (Exception ex)
@@ -85,26 +87,34 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             }
         }
 
-        public bool HighFrequency(Record record)
+        public async Task<bool> HighFrequencyAsync(Record record, List<Record> records)
         {
-            return TransactionsOnTwoMinutes(record) > 3;
+            return await TransactionsOnTwoMinutesAsync(record, records) > 3;
         }
 
-        public int TransactionsOnTwoMinutes(Record record)
+        public async Task<int> TransactionsOnTwoMinutesAsync(Record record, List<Record> records)
         {
             var minutes = record.Transaction.Time.AddMinutes(-2);
-            var transactions = _recordRepository.GetAllAsync().Result.Where(c => c.Transaction != null && (c.Transaction.Time >= minutes && c.Transaction.Time >= record.Transaction.Time)).Count();
-            return transactions;
+            var transactions = await _transactionRepository.GetAllAsync();
+            var list = transactions.ToList();
+
+            var countTransactions = records.Count(c => c.Transaction != null && (c.Transaction.Time >= minutes && c.Transaction.Time <= record.Transaction.Time));
+            return countTransactions;
         }
 
-        public bool DoubledTransaction(Record record)
+        public async Task<bool> DoubledTransactionAsync(Record record, List<Record> records)
         {
-            var transactions = TransactionsOnTwoMinutes(record);
+            var transactions = await TransactionsOnTwoMinutesAsync(record, records);
 
             if (transactions > 2)
-                return _recordRepository.GetAllAsync().Result.Where(c => c.Transaction != null && (c.Transaction.Merchant == record.Transaction.Merchant && c.Transaction.Amount == record.Transaction.Amount)).Count() > 2;
+                return _recordRepository.GetAllAsync().Result.Any(c => c.Transaction != null && (c.Transaction.Merchant == record.Transaction.Merchant && c.Transaction.Amount == record.Transaction.Amount));
 
             return false;
+        }
+
+        private Task TransactionsOnTwoMinutesAsync(Record record)
+        {
+            throw new NotImplementedException();
         }
     }
 }

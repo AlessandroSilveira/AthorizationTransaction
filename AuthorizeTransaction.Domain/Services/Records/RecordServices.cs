@@ -11,24 +11,18 @@ namespace AuthorizeTransaction.Domain.Services.Records
     public class RecordServices : IRecordServices
     {
         private readonly IRecordRepository _recordRepository;
-        private readonly IAccountRepository _accountRepository;
-        private readonly ITransactionRepository _transactionRepository;
+       
 
-        public RecordServices(IRecordRepository recordRepository, IAccountRepository accountRepository, ITransactionRepository transactionRepository)
+        public RecordServices(IRecordRepository recordRepository)
         {
-            _recordRepository = recordRepository;
-            _accountRepository = accountRepository;
-            _transactionRepository = transactionRepository;
+            _recordRepository = recordRepository;           
         }
 
         public async Task AddAsync(Record record)
         {
             try
-            {
-                
-                await _recordRepository.AddAsync(record);
-
-                
+            {                
+                await _recordRepository.AddAsync(record);                
             }
             catch (Exception ex)
             {
@@ -45,9 +39,9 @@ namespace AuthorizeTransaction.Domain.Services.Records
             return RecordsList;
         }
 
-        public void Update(Record item)
+        public async void Update(Record item)
         {
-            _recordRepository.UpdateAsync(item);
+            await _recordRepository.UpdateAsync(item);
         }
     }
 }
