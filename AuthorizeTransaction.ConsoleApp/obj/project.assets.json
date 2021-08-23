@@ -869,11 +869,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.ConsoleApp\\AuthorizeTransaction.ConsoleApp.csproj",
+      "projectUniqueName": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.ConsoleApp\\AuthorizeTransaction.ConsoleApp.csproj",
       "projectName": "AuthorizeTransaction.ConsoleApp",
-      "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.ConsoleApp\\AuthorizeTransaction.ConsoleApp.csproj",
-      "packagesPath": "C:\\Users\\alesi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.ConsoleApp\\obj\\",
+      "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.ConsoleApp\\AuthorizeTransaction.ConsoleApp.csproj",
+      "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.ConsoleApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\alesi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -890,11 +890,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
-              "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
+            "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
+              "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
             },
-            "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj"
+            "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj"
             }
           }
         }

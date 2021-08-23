@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VXNEiUg6n97jarf+Eem3Hx8G5KBU0by0c4FHrxvSO0pdTtuuVRdhEbnq6D8lN//gU65mrEb3vuD9bu8uvSVZQA==",
+  "dgSpecHash": "DbkoxJbkfzsQeS614/KM5+lU9Qfym/ce5KmNWgAm3ckqGbHykTsGo7dGR2gcI7bJqw8Zlx+4+FDApyr0Bqrk+w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
+  "projectFilePath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alesi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],

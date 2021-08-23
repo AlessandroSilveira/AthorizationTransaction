@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZJnOpgY0nIf58PcxNyEJtA+/m7yFMiJIvuFzuQjqplehYau+fC5nImndb+gnOPgC3sDJlpIZTqvnqcW2kg/cMA==",
+  "dgSpecHash": "6Hs9LQR9GERmi84d0eTkNsyYtNj15Egr5z8lK/krFdcuVgEk8E75y+oVF7Lcru2OuD4Rdn1ySXqRSua1ZlFsag==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+  "projectFilePath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alesi\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\alesi\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
