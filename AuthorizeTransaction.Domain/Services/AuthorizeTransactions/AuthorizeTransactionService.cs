@@ -37,7 +37,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 
         public  void ReadInput(List<Record?> records)
         {
-
+            Console.WriteLine();
             Console.WriteLine("Please insert Cat operations: ");
             do
             {
@@ -48,6 +48,8 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 
                 records.Add(JsonConvert.DeserializeObject<Record>(line));
             } while (true);
+            Console.WriteLine("Press one key to Continue...");
+            Console.ReadLine();
         }
 
         public async Task AuthorizeOperationsAsync(List<Record> records)
@@ -71,6 +73,8 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                     PrintOutput(violations, response);
                 }
             }
+            Console.WriteLine();
+            StartReadInputTransactions();
         }
 
 
