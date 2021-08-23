@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {}
+    "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
+    "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
         "projectName": "AuthorizeTransaction.Domain",
-        "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
+        "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
         "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\obj\\",
+        "outputPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

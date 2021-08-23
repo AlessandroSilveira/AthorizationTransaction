@@ -4309,11 +4309,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
       "projectName": "AuthorizeTransaction.Tests",
-      "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
       "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\obj\\",
+      "outputPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -4333,8 +4333,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
-              "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
+            "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
+              "projectPath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
             }
           }
         }
