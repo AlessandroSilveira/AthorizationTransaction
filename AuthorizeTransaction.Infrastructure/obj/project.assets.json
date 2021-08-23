@@ -608,23 +608,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\alesi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj",
       "projectName": "AuthorizeTransaction.Infrastructure",
-      "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Infrastructure\\obj\\",
+      "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Infrastructure\\AuthorizeTransaction.Infrastructure.csproj",
+      "packagesPath": "C:\\Users\\alesi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alessandro.silveira\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alesi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -638,8 +634,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
-              "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
+            "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
+              "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
             }
           }
         }
@@ -674,7 +670,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.7.21379.14\\RuntimeIdentifierGraph.json"
       }
     }
   }
