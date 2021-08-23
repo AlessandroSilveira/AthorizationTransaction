@@ -1,5 +1,5 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
-using AuthorizeTransaction.Domain.Ouputs;
+using AuthorizeTransaction.Domain.Enums;
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using System;
@@ -53,8 +53,6 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
             await VeryifyAvaliableLimitAsync(record, account, violations);
 
-           
-
             return account;
         }
 
@@ -87,12 +85,12 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
         public async Task<bool> HighFrequencyAsync(Record record)
         {
-            return await TransactionsOnTwoMinutesAsync(record) > 3;
+            return await TransactionsOnTwoMinutesAsync(record) > (int)ETransactionsInMinutes.ThreeTransactions;
         }
 
         public async Task<int> TransactionsOnTwoMinutesAsync(Record record)
         {
-            var minutes = record.Transaction.Time.AddMinutes(-2);
+            var minutes = record.Transaction.Time.AddMinutes(-(int)ETransactionsIntervalMinutes.Two);
             var ListTransactions = await _transactionRepository.GetAllAsync();
             var transactions = ListTransactions.ToList();
 

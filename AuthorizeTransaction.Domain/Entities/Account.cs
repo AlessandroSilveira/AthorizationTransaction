@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace AuthorizeTransaction.Domain.Entities
+﻿namespace AuthorizeTransaction.Domain.Entities
 {
     public class Account : Entity
     {

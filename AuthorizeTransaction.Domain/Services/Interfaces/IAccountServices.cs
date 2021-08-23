@@ -1,5 +1,4 @@
-﻿using AuthorizeTransaction.Domain.Entities;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace AuthorizeTransaction.Domain.Services.Interfaces
 {
