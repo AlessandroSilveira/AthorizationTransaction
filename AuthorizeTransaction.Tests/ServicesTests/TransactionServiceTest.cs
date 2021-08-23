@@ -78,7 +78,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllWithCardNotActivated());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
 
             response.Should().NotBeNull();
             response.Should().BeOfType<Record>();
@@ -94,7 +94,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllWithAccountNull());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
 
             response.Should().NotBeNull();
             response.Should().BeOfType<Record>();
