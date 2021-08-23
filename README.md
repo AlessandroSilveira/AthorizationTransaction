@@ -4,8 +4,14 @@ Software to manager an account and transactions rules.
 
 ## Context
 
-I chose Clean Architecture methodology to build the code design, I could reproduce business domain in the code as a
-ubiquitous language and structure, I have so easily test code and expansive software.
+I chose Clean Architecture, Repository Pattern methodologies to build the code design, I could reproduce the business domain in the code as a
+ubiquitous language and structure, easily testable code, and expansive, maintainable, and decoupled software.
+
+- [Net 5] (https://dotnet.microsoft.com/download/dotnet/5.0) - Single, unified platform for creating applications that run on all platforms (Windows, Linux) and devices (IoT, Mobile).
+- [EntitiFramework Core InMemory] - Database provider allows the Entity Framework Core to be used with an in-memory database. 
+- [NewtonSoft Json](https://www.newtonsoft.com/json): Deserializer and Serializer Json
+- [NUnit](https://nunit.org/): Test software
+- [Moq](https://github.com/Moq/moq4/wiki/Quickstart): Mock objects in tests
 
 ## Instructions
 
