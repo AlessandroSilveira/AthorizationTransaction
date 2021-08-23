@@ -29,7 +29,10 @@ namespace AuthorizeTransaction.Domain.Services.Account
             else
             {
                 var violatedAccount = accountStored.FirstOrDefault();
-                violations.Add("account-already-initialized");
+
+                if(!violations.Contains("account-already-initialized"))
+                    violations.Add("account-already-initialized");
+
                 await _accountRepository.UpdateAsync(violatedAccount);
                 return violatedAccount;
             }

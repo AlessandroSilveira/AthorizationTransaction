@@ -27,13 +27,11 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             await _transactionRepository.AddAsync(record.Transaction);
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
-            
+           
             if (account == null)
             {
                 violations.Add("account-not-initialized");
-                return new Entities.Account
-                { 
-                };            
+                return new Entities.Account();
             }
 
             if (account != null && !account.ActiveCard)
@@ -45,12 +43,21 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
                 return account;
             }
 
-            if (await HighFrequencyAsync(record))
-                violations.Add("high-frequency-small-interval");
+            if (violations.Contains("doubled-transaction"))
+                violations.Remove("doubled-transaction");
 
             if (await DoubledTransactionAsync(record))
-                violations.Add("doubled-transaction");
-
+            {
+                if (!violations.Contains("doubled-transaction"))
+                    violations.Add("doubled-transaction");
+            }
+           
+            if (await HighFrequencyAsync(record))
+            {
+                if (!violations.Contains("high-frequency-small-interval"))
+                    violations.Add("high-frequency-small-interval");
+            }
+              
             await VeryifyAvaliableLimitAsync(record, account, violations);
 
             return account;
@@ -64,7 +71,9 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)
                     {
-                        violations.Add("insufficient-limit");
+                        if(!violations.Contains("insufficient-limit"))
+                            violations.Add("insufficient-limit");
+
                         await _accountRepository.UpdateAsync(account);
                     }
                     else
@@ -95,6 +104,7 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             var transactions = ListTransactions.ToList();
 
             var countTransactions = transactions.Count(c => c != null && (c.Time >= minutes && c.Time <= record.Transaction.Time));
+
             return countTransactions;
         }
 
@@ -102,8 +112,11 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
         {
             var transactions = await TransactionsOnTwoMinutesAsync(record);
 
+            var teste = _transactionRepository.GetAllAsync().Result;
+
             if (transactions > 2)
-                return _transactionRepository.GetAllAsync().Result.Any(c => c != null && (c.Merchant == record.Transaction.Merchant && c.Amount == record.Transaction.Amount));
+                  return _transactionRepository.GetAllAsync().Result
+                    .Count(c=> c.Merchant == record.Transaction.Merchant && c.Amount == record.Transaction.Amount)>=2;
 
             return false;
         }

@@ -46,6 +46,9 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                 if (string.IsNullOrEmpty(line))
                     break;
 
+                line = line.Replace("active-card", "activecard");
+                line = line.Replace("available-limit", "availablelimit");
+
                 records.Add(JsonConvert.DeserializeObject<Record>(line));
             } while (true);
             Console.WriteLine("Press one key to Continue...");
