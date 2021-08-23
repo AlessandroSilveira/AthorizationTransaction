@@ -15,7 +15,7 @@ namespace AuthorizeTransaction.Domain.Services.Account
             _accountRepository = accountRepository;
         }
 
-        public async Task<Entities.Account> AccountCreationAsync(Entities.Account account)
+        public async Task<Entities.Account> AccountCreationAsync(Entities.Account account, List<string> violations)
         {
 
             var accountRepo = await _accountRepository.GetAllAsync();
@@ -29,7 +29,7 @@ namespace AuthorizeTransaction.Domain.Services.Account
             else
             {
                 var violatedAccount = accountStored.FirstOrDefault();
-                violatedAccount.Violations.Add("account-already-initialized");
+                violations.Add("account-already-initialized");
                 await _accountRepository.UpdateAsync(violatedAccount);
                 return violatedAccount;
             }

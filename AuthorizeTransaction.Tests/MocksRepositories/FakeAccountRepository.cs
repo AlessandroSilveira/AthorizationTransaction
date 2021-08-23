@@ -24,7 +24,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                     ActiveCard = true,
                     AvailableLimit = 10,
                     Id = 1,
-                    Violations = new List<string>()
+                    //Violations = new List<string>()
                 }
             };
 
@@ -56,7 +56,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                     ActiveCard = false,
                     AvailableLimit = 10,
                     Id = 1,
-                    Violations = new List<string>()
+                    //Violations = new List<string>()
                 }
             };
 
@@ -73,7 +73,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                     ActiveCard = true,
                     AvailableLimit = 100,
                     Id = 1,
-                    Violations = new List<string>()
+                    //Violations = new List<string>()
                 }
             };
 

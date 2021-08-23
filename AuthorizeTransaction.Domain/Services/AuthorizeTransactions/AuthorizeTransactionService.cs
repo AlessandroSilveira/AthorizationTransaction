@@ -58,8 +58,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 
         public async Task AuthorizeOperationsAsync(List<Record> records)
         {
-
-            //var records = await _recordServices.GetAll();
+            var violations = new Violation();
 
             Console.WriteLine("Authorize < operations");
 
@@ -67,10 +66,9 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
             {
                 if (item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
                 {
-                    var response = await _transactionServices.TransactionAuthorizationAsync(item, records);
+                    var response = await _transactionServices.TransactionAuthorizationAsync(item, records, violations.Violations);
 
-
-                    var outputAccount = new AccountOutput { Account = response };
+                    var outputAccount = new AccountOutput { Account = response, Violations = violations.Violations };
 
                     var output = JsonConvert.SerializeObject(outputAccount);
                     PrintOutput(output);
@@ -78,7 +76,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                 }
                 else
                 {
-                   var response =  await _accountServices.AccountCreationAsync(item.Account);
+                   var response =  await _accountServices.AccountCreationAsync(item.Account, violations.Violations);
 
                     var outputAccount = new AccountOutput { Account = response };
                     var output = JsonConvert.SerializeObject(outputAccount);

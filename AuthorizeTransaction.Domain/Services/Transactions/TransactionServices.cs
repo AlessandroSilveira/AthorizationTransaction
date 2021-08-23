@@ -1,4 +1,5 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
+using AuthorizeTransaction.Domain.Ouputs;
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using System;
@@ -21,43 +22,41 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             _accountRepository = accountRepository;
         }
 
-        public async Task<Entities.Account> TransactionAuthorizationAsync(Record record, List<Record> records)
+        public async Task<Entities.Account> TransactionAuthorizationAsync(Record record, List<Record> records, List<string> violations)
         {   
-
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
-
-
+            
             if (account == null)
             {
+                violations.Add("account-not-initialized");
                 return new Entities.Account
-                {
-                    Violations = new List<string> { "account-not-initialized" }
+                { 
                 };            
             }
 
             if (account != null && !account.ActiveCard)
             {
-                if(!account.Violations.Contains("card-not-active"))
-                    account.Violations.Add("card-not-active");
+                if(!violations.Contains("card-not-active"))
+                    violations.Add("card-not-active");
 
                 await _accountRepository.UpdateAsync(account);
                 return account;
             }
 
             if (await HighFrequencyAsync(record, records))
-                account.Violations.Add("high-frequency-small-interval");
+                violations.Add("high-frequency-small-interval");
 
             if (await DoubledTransactionAsync(record, records))
-                account.Violations.Add("doubled-transaction");
+                violations.Add("doubled-transaction");
 
-            await VeryifyAvaliableLimitAsync(record, account);
+            await VeryifyAvaliableLimitAsync(record, account, violations);
 
             return account;
         }
 
 
-        private async Task VeryifyAvaliableLimitAsync(Record record, Entities.Account? account)
+        private async Task VeryifyAvaliableLimitAsync(Record record, Entities.Account? account, List<string> violations)
         {
             try
             {
@@ -68,13 +67,14 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)
                     {
-                        account.Violations.Add("insufficient-limit");
+                        violations.Add("insufficient-limit");
                         await _accountRepository.UpdateAsync(account);
                     }
                     else
                     {
-                        if (account.Violations.Contains("insufficient-limit"))
-                            account.Violations.Remove("insufficient-limit");
+                        
+                        if(violations.Contains("insufficient-limit"))
+                            violations.Remove("insufficient-limit");
 
                         account.AvailableLimit -= record.Transaction.Amount;
                         
@@ -112,9 +112,6 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             return false;
         }
 
-        private Task TransactionsOnTwoMinutesAsync(Record record)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

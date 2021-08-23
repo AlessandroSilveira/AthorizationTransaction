@@ -21,6 +21,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
         private Mock<IAccountRepository> _accountRepositoryMock;
         private TransactionServices _transactionServices;
         private List<Record> Records;
+        private Violation violation;
 
         [SetUp]
         public void SetUp() 
@@ -51,6 +52,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
                     }
                 }
             };
+            violation = new Violation();
         }
 
         [Test]
@@ -60,7 +62,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsync());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+            var response = await _transactionServices.TransactionAuthorization(Records.FirstOrDefault(), violation.Violations);
 
             response.Should().NotBeNull();
             response.Should().BeOfType<Record>();

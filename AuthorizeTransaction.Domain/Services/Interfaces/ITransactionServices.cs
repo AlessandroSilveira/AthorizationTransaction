@@ -6,6 +6,6 @@ namespace AuthorizeTransaction.Domain.Services.Interfaces
 {
     public interface ITransactionServices
     {
-        Task<Entities.Account> TransactionAuthorizationAsync(Record? item,List<Record> records);
+        Task<Entities.Account> TransactionAuthorizationAsync(Record? item,List<Record> records, List<string> violations);
     }
 }

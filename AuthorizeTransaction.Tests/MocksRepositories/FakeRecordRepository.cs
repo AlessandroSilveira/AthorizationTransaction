@@ -27,7 +27,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                         ActiveCard =true,
                         AvailableLimit = 10,
                         Id = 1,
-                        Violations = new List<string>()
+                        // Violations = new List<string>()
                     },
                     Transaction = new Transaction
                     {
@@ -35,7 +35,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                         Amount = 10,
                         Merchant = "Teste",
                         Time = DateTime.Now,
-                        Violations =  new List<string>()
+                        //Violations =  new List<string>()
                     }
                 }
             };
@@ -72,7 +72,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                         ActiveCard =true,
                         AvailableLimit = 1000,
                         Id = 1,
-                        Violations = new List<string>()
+                        //Violations = new List<string>()
                     }
                 },
                 new Record
@@ -84,7 +84,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 150,
                             Merchant = "Burger King",
                             Time = new DateTime(2021,08,22,16,57,00),
-                            Violations =  new List<string>()
+                           // Violations =  new List<string>()
                         }
                 },
                 new Record
@@ -96,7 +96,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 200,
                             Merchant = "Rapi",
                             Time = new DateTime(2021,08,22,16,57,43),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                 },
                  new Record
@@ -108,7 +108,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 200,
                             Merchant = "Uber Eats",
                             Time = new DateTime(2021,08,22,16,58,44),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                 },
                   new Record
@@ -120,7 +120,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 40,
                             Merchant = "Uber",
                             Time = new DateTime(2021,08,22,16,58,45),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                 }
 
@@ -144,7 +144,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                         ActiveCard =true,
                         AvailableLimit = 100,
                         Id = 1,
-                        Violations = new List<string>()
+                        //Violations = new List<string>()
                     }
                 },
                 new Record
@@ -156,7 +156,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 20,
                             Merchant = "Burger King",
                             Time = new DateTime(2021,08,22,16,57,00),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                 },
                 new Record
@@ -168,7 +168,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 10,
                             Merchant = "McDonald's",
                             Time = new DateTime(2021,08,22,16,57,01),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                 },
                  new Record
@@ -180,7 +180,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                             Amount = 15,
                             Merchant = "Burger King",
                             Time = new DateTime(2021,08,22,16,57,02),
-                            Violations =  new List<string>()
+                            //Violations =  new List<string>()
                         }
                  }
 

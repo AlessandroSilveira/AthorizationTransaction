@@ -29,7 +29,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
                     Id = 1,
                     AvailableLimit = 1000,
                     ActiveCard = true,
-                    Violations = new List<string>()
+                 //   Violations = new List<string>()
                 }
             };
                     
