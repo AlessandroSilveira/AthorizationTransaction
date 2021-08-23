@@ -11,14 +11,12 @@ using System.Threading.Tasks;
 namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
 {
     public class AuthorizeTransactionService
-    {
-        private readonly IRecordServices _recordServices;
+    {       
         private readonly IAccountServices _accountServices;
         private readonly ITransactionServices _transactionServices;
 
-        public AuthorizeTransactionService(IRecordServices recordServices, IAccountServices accountServices, ITransactionServices transactionServices)
-        {
-            _recordServices = recordServices;
+        public AuthorizeTransactionService(IAccountServices accountServices, ITransactionServices transactionServices)
+        {          
             _accountServices = accountServices;
             _transactionServices = transactionServices;
         }
@@ -29,7 +27,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
             try
             {
                 ReadInput(records);
-                AuthorizeOperationsAsync(records);
+                await AuthorizeOperationsAsync(records);
             }
             catch (Exception ex)
             {
@@ -48,11 +46,7 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
                 if (string.IsNullOrEmpty(line))
                     break;
 
-                //_recordServices.AddAsync(JsonConvert.DeserializeObject<Record>(line));
-                var record = JsonConvert.DeserializeObject<Record>(line);
-                
-                
-                records.Add(record);
+                records.Add(JsonConvert.DeserializeObject<Record>(line));
             } while (true);
         }
 
@@ -66,31 +60,29 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
             {
                 if (item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
                 {
-                    var response = await _transactionServices.TransactionAuthorizationAsync(item, records, violations.Violations);
+                    var response = await _transactionServices.TransactionAuthorizationAsync(item,  violations.Violations);
 
-                    var outputAccount = new AccountOutput { Account = response, Violations = violations.Violations };
-
-                    var output = JsonConvert.SerializeObject(outputAccount);
-                    PrintOutput(output);
-
+                    PrintOutput(violations, response);
                 }
                 else
                 {
                    var response =  await _accountServices.AccountCreationAsync(item.Account, violations.Violations);
 
-                    var outputAccount = new AccountOutput { Account = response };
-                    var output = JsonConvert.SerializeObject(outputAccount);
-
-                   PrintOutput(output);
+                    PrintOutput(violations, response);
                 }
             }
         }
 
-        private static void PrintOutput(string output)
+
+        private static void PrintOutput(Violation violations, Entities.Account response)
         {
+            var outputAccount = new AccountOutput { Account = response, Violations = violations.Violations };
+
+            var output = JsonConvert.SerializeObject(outputAccount);
             Stream stdout = Console.OpenStandardOutput();
             stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
-            stdout.Write(Encoding.UTF8.GetBytes("\n"));           
+            stdout.Write(Encoding.UTF8.GetBytes("\n"));
+            
         }
     }
 }

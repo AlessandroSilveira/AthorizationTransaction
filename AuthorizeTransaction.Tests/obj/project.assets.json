@@ -2058,7 +2058,7 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
+      "sha512": "/D3jtX0+u5+6rS3RGvTMyICPpIuzBgqtUYLjK1aXLua0nWH4JpM1H/tRk1Uxs6Fo0fe22jyJaTpoXPSu0il8Ug==",
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
@@ -3245,7 +3245,7 @@
       ]
     },
     "System.Reflection.Metadata/1.6.0": {
-      "sha512": "COC1aiAJjCoA5GBF+QKL2uLqEBew4JsCkQmoHKbN3TlOZKa2fKLz5CpiRQKDz0RsAOEGsVKqOD5bomsXq/4STQ==",
+      "sha512": "I4aWCii7N1bmn43vviRfJQYW6UAco1G/CcjJouvgGdb/sr2BRTSnddhaPMg2oxu9VHFn8T1z3dTLq0pna8zmtA==",
       "type": "package",
       "path": "system.reflection.metadata/1.6.0",
       "files": [
@@ -4247,7 +4247,7 @@
       ]
     },
     "System.Xml.XmlDocument/4.3.0": {
-      "sha512": "lJ8AxvkX7GQxpC6GFCeBj8ThYVyQczx2+f/cWHJU8tjS7YfI6Cv6bon70jVEgs2CiFbmmM8b9j1oZVx0dSI2Ww==",
+      "sha512": "xsnq6w3/S+NeYkUtxoCEDAn2Z+AkgvGLvJnslrTRte4jEU+fkR3DVG+s0sBmQYQ4c3r8949PaGg8AnRb9bBc2w==",
       "type": "package",
       "path": "system.xml.xmldocument/4.3.0",
       "files": [
@@ -4303,19 +4303,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alesi\\.nuget\\packages\\": {}
+    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "projectUniqueName": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
       "projectName": "AuthorizeTransaction.Tests",
-      "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
-      "packagesPath": "C:\\Users\\alesi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Tests\\obj\\",
+      "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\AuthorizeTransaction.Tests.csproj",
+      "packagesPath": "C:\\Users\\alessandro.silveira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Tests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\alesi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alessandro.silveira\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4329,8 +4333,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
-              "projectPath": "C:\\Users\\alesi\\source\\repos\\AuthorizeTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
+            "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj": {
+              "projectPath": "C:\\Users\\alessandro.silveira\\source\\repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj"
             }
           }
         }
@@ -4387,7 +4391,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.7.21379.14\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
       }
     }
   }

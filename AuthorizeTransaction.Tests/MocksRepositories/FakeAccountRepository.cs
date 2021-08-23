@@ -22,7 +22,7 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
                 new Account
                 {
                     ActiveCard = true,
-                    AvailableLimit = 10,
+                    AvailableLimit = 100,
                     Id = 1,
                     //Violations = new List<string>()
                 }
@@ -89,6 +89,21 @@ namespace AuthorizeTransaction.Tests.MocksRepositories
             return Task.FromResult(result);
         }
 
-        
+        internal Task<IEnumerable<Account>> GetAllAsyncWithInsufficientLimit()
+        {
+            var accountList = new List<Account>
+            {
+                new Account
+                {
+                    ActiveCard = true,
+                    AvailableLimit = 10,
+                    Id = 1,
+                    //Violations = new List<string>()
+                }
+            };
+
+            IEnumerable<Account> result = accountList.ToList();
+            return Task.FromResult(result);
+        }
     }
 }

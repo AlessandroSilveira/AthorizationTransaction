@@ -11,19 +11,20 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 {
     public class TransactionServices : ITransactionServices
     {
-        private readonly IRecordRepository _recordRepository;
+        
         private readonly ITransactionRepository _transactionRepository;
         private readonly IAccountRepository _accountRepository;
 
-        public TransactionServices(IRecordRepository recordRepository, ITransactionRepository transactionRepository, IAccountRepository accountRepository)
+        public TransactionServices( ITransactionRepository transactionRepository, IAccountRepository accountRepository)
         {
-            _recordRepository = recordRepository;
+           
             _transactionRepository = transactionRepository;
             _accountRepository = accountRepository;
         }
 
-        public async Task<Entities.Account> TransactionAuthorizationAsync(Record record, List<Record> records, List<string> violations)
-        {   
+        public async Task<Entities.Account> TransactionAuthorizationAsync(Record record, List<string> violations)
+        {
+            await _transactionRepository.AddAsync(record.Transaction);
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
             
@@ -44,13 +45,15 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
                 return account;
             }
 
-            if (await HighFrequencyAsync(record, records))
+            if (await HighFrequencyAsync(record))
                 violations.Add("high-frequency-small-interval");
 
-            if (await DoubledTransactionAsync(record, records))
+            if (await DoubledTransactionAsync(record))
                 violations.Add("doubled-transaction");
 
             await VeryifyAvaliableLimitAsync(record, account, violations);
+
+           
 
             return account;
         }
@@ -60,10 +63,6 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
         {
             try
             {
-                var records = await _recordRepository.GetAllAsync();
-                var RecordsList = records.ToList();
-               
-
                 if (account != null && record.Transaction != null)
                     if (account.AvailableLimit - record.Transaction.Amount < 0)
                     {
@@ -71,8 +70,7 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
                         await _accountRepository.UpdateAsync(account);
                     }
                     else
-                    {
-                        
+                    {                        
                         if(violations.Contains("insufficient-limit"))
                             violations.Remove("insufficient-limit");
 
@@ -87,27 +85,27 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             }
         }
 
-        public async Task<bool> HighFrequencyAsync(Record record, List<Record> records)
+        public async Task<bool> HighFrequencyAsync(Record record)
         {
-            return await TransactionsOnTwoMinutesAsync(record, records) > 3;
+            return await TransactionsOnTwoMinutesAsync(record) > 3;
         }
 
-        public async Task<int> TransactionsOnTwoMinutesAsync(Record record, List<Record> records)
+        public async Task<int> TransactionsOnTwoMinutesAsync(Record record)
         {
             var minutes = record.Transaction.Time.AddMinutes(-2);
-            var transactions = await _transactionRepository.GetAllAsync();
-            var list = transactions.ToList();
+            var ListTransactions = await _transactionRepository.GetAllAsync();
+            var transactions = ListTransactions.ToList();
 
-            var countTransactions = records.Count(c => c.Transaction != null && (c.Transaction.Time >= minutes && c.Transaction.Time <= record.Transaction.Time));
+            var countTransactions = transactions.Count(c => c != null && (c.Time >= minutes && c.Time <= record.Transaction.Time));
             return countTransactions;
         }
 
-        public async Task<bool> DoubledTransactionAsync(Record record, List<Record> records)
+        public async Task<bool> DoubledTransactionAsync(Record record)
         {
-            var transactions = await TransactionsOnTwoMinutesAsync(record, records);
+            var transactions = await TransactionsOnTwoMinutesAsync(record);
 
             if (transactions > 2)
-                return _recordRepository.GetAllAsync().Result.Any(c => c.Transaction != null && (c.Transaction.Merchant == record.Transaction.Merchant && c.Transaction.Amount == record.Transaction.Amount));
+                return _transactionRepository.GetAllAsync().Result.Any(c => c != null && (c.Merchant == record.Transaction.Merchant && c.Amount == record.Transaction.Amount));
 
             return false;
         }

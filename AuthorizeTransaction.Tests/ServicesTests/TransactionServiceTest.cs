@@ -16,20 +16,21 @@ namespace AuthorizeTransaction.Tests.ServicesTests
     [TestFixture]
     public class TransactionServiceTest
     {
-        private Mock<IRecordRepository> _recordRepositoryMock;
+       
         private Mock<ITransactionRepository> _transactionRepositoryMock;
         private Mock<IAccountRepository> _accountRepositoryMock;
         private TransactionServices _transactionServices;
         private List<Record> Records;
         private Violation violation;
+        private Record record;
 
         [SetUp]
         public void SetUp() 
         {
-            _recordRepositoryMock = new Mock<IRecordRepository>();
+           
             _transactionRepositoryMock = new Mock<ITransactionRepository>();
             _accountRepositoryMock = new Mock<IAccountRepository>();
-            _transactionServices = new TransactionServices(_recordRepositoryMock.Object, _transactionRepositoryMock.Object, _accountRepositoryMock.Object);
+            _transactionServices = new TransactionServices(_transactionRepositoryMock.Object, _accountRepositoryMock.Object);
             Records = new List<Record>
             {
                 new Record
@@ -39,20 +40,29 @@ namespace AuthorizeTransaction.Tests.ServicesTests
                     {
                         ActiveCard =true,
                         AvailableLimit = 10,
-                        Id = 1,
-                        Violations = new List<string>()
+                        Id = 1
+                        
                     },
                     Transaction = new Transaction
                     {
                         Id = 1,
                         Amount = 10,
                         Merchant = "Teste",
-                        Time = DateTime.Now,
-                        Violations =  new List<string>()
+                        Time = DateTime.Now
                     }
                 }
             };
             violation = new Violation();
+            record = new Record
+            {
+                Transaction = new Transaction
+                {
+                    Id = 1,
+                    Amount = 100,
+                    Merchant = "Teste",
+                    Time = DateTime.Now
+                }
+            };
         }
 
         [Test]
@@ -62,10 +72,10 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsync());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorization(Records.FirstOrDefault(), violation.Violations);
+            var response = await _transactionServices.TransactionAuthorizationAsync(record,  violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
+            response.Should().BeOfType<Account>();
 
         }
 
@@ -78,11 +88,11 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllWithCardNotActivated());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
+            var response = await _transactionServices.TransactionAuthorizationAsync(record,  violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
-            response.Transaction.Violations.Should().Contain("card-not-active");
+            response.Should().BeOfType<Account>();
+            violation.Violations.Should().Contain("card-not-active");
 
         }
         [Test]
@@ -94,11 +104,11 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllWithAccountNull());
             _transactionRepositoryMock.Setup(a => a.UpdateAsync(Records.FirstOrDefault().Transaction)).Returns(new FakeTransactionRepository().UpdateAsync(Records.FirstOrDefault().Transaction));
 
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
+            var response = await _transactionServices.TransactionAuthorizationAsync(record,  violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
-            response.Transaction.Violations.Should().Contain("account-not-initialized");
+            response.Should().BeOfType<Account>();
+            violation.Violations.Should().Contain("account-not-initialized");
 
         }
 
@@ -107,31 +117,29 @@ namespace AuthorizeTransaction.Tests.ServicesTests
         public async Task TransactionAuthorizationWhenReceiveTransactionShouldReturnHighFrequencySmallInterval()
         {
             var transaction = Records.FirstOrDefault().Transaction;
+            Records.FirstOrDefault().Account.AvailableLimit = 1000;
 
             transaction.Id = 1;
             transaction.Merchant = "Burger King";
             transaction.Time = new DateTime(2021, 08, 22, 16, 58, 55);
             transaction.Amount = 100;
 
-            Records.FirstOrDefault().Transaction = transaction;
-
             _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));
-            _recordRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeRecordRepository().GetAllAsyncForHighFrequency());
+            _transactionRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeTransactionRepository().GetAllAsyncForHighFrequency());
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsync());
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
-            response.Transaction.Violations.Should().Contain("high-frequency-small-interval");
+            response.Should().BeOfType<Account>();
+            violation.Violations.Should().Contain("high-frequency-small-interval");
 
         }
 
         [Test]
         public async Task TransactionAuthorizationShouldReturnDoubleTransaction()
         {
-            Records.FirstOrDefault().Account.ActiveCard = true;
+            
             var transaction = Records.FirstOrDefault().Transaction;
-
             transaction.Id = 1;
             transaction.Merchant = "Burger King";
             transaction.Time = new DateTime(2021, 08, 22, 16, 57, 03);
@@ -140,13 +148,14 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             Records.FirstOrDefault().Transaction = transaction;
 
             _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));
-            _recordRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeRecordRepository().GetAllAsyncForDoubleTransaction());
+            _transactionRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeTransactionRepository().GetAllAsyncForDoubleTransaction());
             _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsync());
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+
+            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault(), violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
-            response.Transaction.Violations.Should().Contain("doubled-transaction");
+            response.Should().BeOfType<Account>();
+            violation.Violations.Should().Contain("doubled-transaction");
 
         }
 
@@ -164,14 +173,13 @@ namespace AuthorizeTransaction.Tests.ServicesTests
 
             Records.FirstOrDefault().Transaction = transaction;
 
-            _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));
-            _recordRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeRecordRepository().GetAllAsync());
-            _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsync());
-            var response = await _transactionServices.TransactionAuthorizationAsync(Records.FirstOrDefault());
+            _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));           
+            _accountRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeAccountRepository().GetAllAsyncWithInsufficientLimit());
+            var response = await _transactionServices.TransactionAuthorizationAsync(record, violation.Violations);
 
             response.Should().NotBeNull();
-            response.Should().BeOfType<Record>();
-            response.Transaction.Violations.Should().Contain("insufficient-limit");
+            response.Should().BeOfType<Account>();
+            violation.Violations.Should().Contain("insufficient-limit");
 
         }
     }
