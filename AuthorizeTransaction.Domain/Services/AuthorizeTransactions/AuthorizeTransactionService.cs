@@ -1,8 +1,8 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
 using AuthorizeTransaction.Domain.Ouputs;
 using AuthorizeTransaction.Domain.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,82 +14,106 @@ namespace AuthorizeTransaction.Domain.Services.AuthorizeTransactions
     {       
         private readonly IAccountServices _accountServices;
         private readonly ITransactionServices _transactionServices;
+        private readonly IConfiguration _configuration;
+       
+        List<Record> records = new();
 
-        public AuthorizeTransactionService(IAccountServices accountServices, ITransactionServices transactionServices)
-        {          
+        public AuthorizeTransactionService(IAccountServices accountServices, ITransactionServices transactionServices, IConfiguration configuration)
+        {
             _accountServices = accountServices;
             _transactionServices = transactionServices;
+            _configuration = configuration;
         }
 
-        public async Task StartReadInputTransactions()
+        public async Task StartReadInputTransactions(FileSystemWatcher watcher)
         {
-            var records = new List<Record>();      
-            try
-            {
-                ReadInput(records);
-                await AuthorizeOperationsAsync(records);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
+            watcher.Created += new FileSystemEventHandler(ReadInput);
+            watcher.Changed += new FileSystemEventHandler(ReadInput);
+            new System.Threading.AutoResetEvent(false).WaitOne();
         }
 
-        public  void ReadInput(List<Record?> records)
-        {
-            Console.WriteLine();
-            Console.WriteLine("Please insert Cat operations: ");
-            do
+        public void  ReadInput(object source, FileSystemEventArgs e)
+        { 
+            var enumLines = File.ReadLines( _configuration.GetSection("File:Path").ToString() + e.Name, Encoding.UTF8);
+            
+            foreach (var line in enumLines)
             {
-                string line = Console.ReadLine();
-
+                var linha = line;
                 if (string.IsNullOrEmpty(line))
-                    break;
+                        break;
 
-                line = line.Replace("active-card", "activecard");
-                line = line.Replace("available-limit", "availablelimit");
-
-                records.Add(JsonConvert.DeserializeObject<Record>(line));
-            } while (true);
-            Console.WriteLine("Press one key to Continue...");
-            Console.ReadLine();
+                linha = linha.Replace("active-card", "activecard");
+                linha = linha.Replace("available-limit", "availablelimit");
+                try
+                {
+                    records.Add(JsonConvert.DeserializeObject<Record>(linha));
+                }
+                catch
+                {
+                    continue;
+                }
+                
+            }
+            AuthorizeOperationsAsync(records).Wait();
         }
 
         public async Task AuthorizeOperationsAsync(List<Record> records)
         {
             var violations = new Violation();
-
-            Console.WriteLine("Authorize < operations");
+            var response = new Entities.Account();
 
             foreach (var item in records)
             {
                 if (item.Transaction != null && (item.Transaction.Amount > 0 && !string.IsNullOrEmpty(item.Transaction.Merchant)))
                 {
-                    var response = await _transactionServices.TransactionAuthorizationAsync(item,  violations.Violations);
-
+                     response = await _transactionServices.TransactionAuthorizationAsync(item,  violations.Violations);
                     PrintOutput(violations, response);
                 }
                 else
                 {
-                   var response =  await _accountServices.AccountCreationAsync(item.Account, violations.Violations);
-
+                    response =  await _accountServices.AccountCreationAsync(item.Account, violations.Violations);
                     PrintOutput(violations, response);
                 }
             }
-            Console.WriteLine();
-            StartReadInputTransactions();
+            
         }
 
 
-        private static void PrintOutput(Violation violations, Entities.Account response)
+        private  void PrintOutput(Violation violations, Entities.Account response)
         {
+            string folder = _configuration.GetSection("File:Path").ToString();
+            string arquivo = Path.Combine(_configuration.GetSection("File:Path").ToString(), _configuration.GetSection("File:FileName").ToString());
             var outputAccount = new AccountOutput { Account = response, Violations = violations.Violations };
-
             var output = JsonConvert.SerializeObject(outputAccount);
-            Stream stdout = Console.OpenStandardOutput();
-            stdout.Write(Encoding.UTF8.GetBytes(output.ToLower()));
-            stdout.Write(Encoding.UTF8.GetBytes("\n"));
-            
+           
+            if (!File.Exists(arquivo))
+            {
+                using StreamWriter sw = new(arquivo, false);
+                if (new FileInfo(arquivo).Length == 0)
+                {
+                    sw.WriteLine("$ authorize < operations");
+                    sw.WriteLine("\n");
+                }   
+                
+                sw.WriteLine(output.ToLower());
+                sw.Flush();
+                sw.Close();
+
+            }
+            else
+            {
+                using StreamWriter sw = File.AppendText(arquivo);
+                if (new FileInfo(arquivo).Length == 0)
+                {
+                    sw.WriteLine("$ authorize < operations");
+                    sw.WriteLine("\n");
+                }
+
+                sw.WriteLine(output.ToLower());
+                sw.Flush();
+                sw.Close();
+
+            }
         }
     }
 }

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "DbkoxJbkfzsQeS614/KM5+lU9Qfym/ce5KmNWgAm3ckqGbHykTsGo7dGR2gcI7bJqw8Zlx+4+FDApyr0Bqrk+w==",
+  "dgSpecHash": "dRBkN90h84J1b/CiN537GgrkW1GAJBX/b/7R5vqT6+PEV0shG6N3NgIgvo/SO7fE7ahGlQ9H+NonYEE/ClMzqw==",
   "success": true,
   "projectFilePath": "C:\\Users\\alessandro.silveira\\Source\\Repos\\AthorizationTransaction\\AuthorizeTransaction.Domain\\AuthorizeTransaction.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\alesi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\alessandro.silveira\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,5 +1,4 @@
 ﻿using AuthorizeTransaction.Domain.Entities;
-using AuthorizeTransaction.Domain.Enums;
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using AuthorizeTransaction.Domain.Services.Interfaces;
 using System;
@@ -27,6 +26,9 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             await _transactionRepository.AddAsync(record.Transaction);
             var accountStored = await _accountRepository.GetAllAsync();
             var account = accountStored.ToList().FirstOrDefault();
+
+            var transaction = new Transaction();
+            transaction.Create(record.Transaction);
            
             if (account == null)
             {
@@ -46,13 +48,13 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             if (violations.Contains("doubled-transaction"))
                 violations.Remove("doubled-transaction");
 
-            if (await DoubledTransactionAsync(record))
+            if (await transaction.DoubledTransactionAsync(record, _transactionRepository))
             {
                 if (!violations.Contains("doubled-transaction"))
                     violations.Add("doubled-transaction");
             }
            
-            if (await HighFrequencyAsync(record))
+            if (await transaction.HighFrequencyAsync(record, _transactionRepository))
             {
                 if (!violations.Contains("high-frequency-small-interval"))
                     violations.Add("high-frequency-small-interval");
@@ -62,7 +64,6 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
 
             return account;
         }
-
 
         private async Task VeryifyAvaliableLimitAsync(Record record, Entities.Account? account, List<string> violations)
         {
@@ -92,35 +93,5 @@ namespace AuthorizeTransaction.Domain.Services.Transactions
             }
         }
 
-        public async Task<bool> HighFrequencyAsync(Record record)
-        {
-            return await TransactionsOnTwoMinutesAsync(record) > (int)ETransactionsInMinutes.ThreeTransactions;
-        }
-
-        public async Task<int> TransactionsOnTwoMinutesAsync(Record record)
-        {
-            var minutes = record.Transaction.Time.AddMinutes(-(int)ETransactionsIntervalMinutes.Two);
-            var ListTransactions = await _transactionRepository.GetAllAsync();
-            var transactions = ListTransactions.ToList();
-
-            var countTransactions = transactions.Count(c => c != null && (c.Time >= minutes && c.Time <= record.Transaction.Time));
-
-            return countTransactions;
-        }
-
-        public async Task<bool> DoubledTransactionAsync(Record record)
-        {
-            var transactions = await TransactionsOnTwoMinutesAsync(record);
-
-            var teste = _transactionRepository.GetAllAsync().Result;
-
-            if (transactions > 2)
-                  return _transactionRepository.GetAllAsync().Result
-                    .Count(c=> c.Merchant == record.Transaction.Merchant && c.Amount == record.Transaction.Amount)>=2;
-
-            return false;
-        }
-
-      
     }
 }
