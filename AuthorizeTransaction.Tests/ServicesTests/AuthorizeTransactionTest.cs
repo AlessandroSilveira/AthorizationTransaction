@@ -9,6 +9,7 @@ using AuthorizeTransaction.Domain.Entities;
 using System;
 using AuthorizeTransaction.Domain.Repositories.Interfaces;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace AuthorizeTransaction.Test
 {
@@ -20,6 +21,7 @@ namespace AuthorizeTransaction.Test
         private Mock<ITransactionRepository> _transactionRepositoryMock;
         private Mock<IAccountRepository> _accountRepositoryMock;
         private AuthorizeTransactionService _authorizeTransactionService;
+        private Mock<IConfiguration> _configurationMock;
         private List<Record> Records;
 
         [SetUp] 
@@ -29,8 +31,14 @@ namespace AuthorizeTransaction.Test
             _accountServiceMock = new Mock<IAccountServices>();
             _transactionServiceMock = new Mock<ITransactionServices>();           
             _transactionRepositoryMock = new Mock<ITransactionRepository>();
-            _accountRepositoryMock = new Mock<IAccountRepository>();    
-            _authorizeTransactionService = new AuthorizeTransactionService(_accountServiceMock.Object, _transactionServiceMock.Object);
+            _accountRepositoryMock = new Mock<IAccountRepository>();
+            _configurationMock = new Mock<IConfiguration>();
+            _authorizeTransactionService = new AuthorizeTransactionService(_accountServiceMock.Object, _transactionServiceMock.Object, _configurationMock.Object);
+
+            var transaction1 = new Transaction();          
+
+            transaction1.Create(1, 20, "Teste", DateTime.Now);
+            
             Records = new List<Record>
             {
                 new Record
@@ -43,13 +51,7 @@ namespace AuthorizeTransaction.Test
                         Id = 1
 
                     },
-                    Transaction = new Transaction
-                    {
-                        Id = 1,
-                        Amount = 10,
-                        Merchant = "Teste",
-                        Time = DateTime.Now
-                    }
+                  Transaction = transaction1
                 }
             };
         }

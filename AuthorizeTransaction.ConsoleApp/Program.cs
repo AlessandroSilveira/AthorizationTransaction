@@ -36,7 +36,7 @@ namespace AuthorizeTransaction.ConsoleApp
                 Filter = "*.*"
             };
 
-            serviceProvider.GetService<AuthorizeTransactionService>().StartReadInputTransactions(watcher, configuration).Wait();
+            serviceProvider.GetService<AuthorizeTransactionService>().StartReadInputTransactions(watcher).Wait();
         }
 
         private static void ConfigureServices(IServiceCollection serviceCollection, IConfiguration configuration)

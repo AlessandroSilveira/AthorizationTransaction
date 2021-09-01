@@ -30,6 +30,8 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             _transactionRepositoryMock = new Mock<ITransactionRepository>();
             _accountRepositoryMock = new Mock<IAccountRepository>();
             _transactionServices = new TransactionServices(_transactionRepositoryMock.Object, _accountRepositoryMock.Object);
+            var transaction = new Transaction();
+            transaction.Create(1,10, "Teste",DateTime.Now);
             Records = new List<Record>
             {
                 new Record
@@ -42,25 +44,13 @@ namespace AuthorizeTransaction.Tests.ServicesTests
                         Id = 1
                         
                     },
-                    Transaction = new Transaction
-                    {
-                        Id = 1,
-                        Amount = 10,
-                        Merchant = "Teste",
-                        Time = DateTime.Now
-                    }
+                    Transaction = transaction
                 }
             };
             violation = new Violation();
             record = new Record
             {
-                Transaction = new Transaction
-                {
-                    Id = 1,
-                    Amount = 100,
-                    Merchant = "Teste",
-                    Time = DateTime.Now
-                }
+                Transaction = transaction
             };
         }
 
@@ -117,11 +107,8 @@ namespace AuthorizeTransaction.Tests.ServicesTests
         {
             var transaction = Records.FirstOrDefault().Transaction;
             Records.FirstOrDefault().Account.AvailableLimit = 1000;
-
-            transaction.Id = 1;
-            transaction.Merchant = "Burger King";
-            transaction.Time = new DateTime(2021, 08, 22, 16, 58, 55);
-            transaction.Amount = 100;
+            transaction.Create(1, 100, "Burger King", new DateTime(2021, 08, 22, 16, 58, 55));
+           
 
             _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));
             _transactionRepositoryMock.Setup(a => a.GetAllAsync()).Returns(new FakeTransactionRepository().GetAllAsyncForHighFrequency());
@@ -139,11 +126,8 @@ namespace AuthorizeTransaction.Tests.ServicesTests
         {
             
             var transaction = Records.FirstOrDefault().Transaction;
-            transaction.Id = 1;
-            transaction.Merchant = "Burger King";
-            transaction.Time = new DateTime(2021, 08, 22, 16, 57, 03);
-            transaction.Amount = 20;
-
+            transaction.Create(1, 20, "Burguer King", new DateTime(2021, 08, 22, 16, 57, 03));
+           
             Records.FirstOrDefault().Transaction = transaction;
 
             _transactionRepositoryMock.Setup(a => a.GetByIdAsync(transaction.Id)).Returns(new FakeTransactionRepository().GetByIdAsync(transaction.Id));
@@ -165,10 +149,7 @@ namespace AuthorizeTransaction.Tests.ServicesTests
             Records.FirstOrDefault().Account.AvailableLimit = 10;
             var transaction = Records.FirstOrDefault().Transaction;
 
-            transaction.Id = 1;
-            transaction.Merchant = "Burger King";
-            transaction.Time = new DateTime(2021, 08, 22, 16, 57, 03);
-            transaction.Amount = 20;
+            transaction.Create(1, 20, "Burguer King", new DateTime(2021, 08, 22, 16, 57, 03));
 
             Records.FirstOrDefault().Transaction = transaction;
 
